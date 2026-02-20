@@ -51,3 +51,69 @@ footer {
     padding: 20px;
     margin-top: 40px;
 }
+/* ===== Floating WhatsApp Button ===== */
+.whatsapp-float {
+  position: fixed;
+  width: 60px;
+  height: 60px;
+  bottom: 25px;
+  right: 25px;
+  background-color: #25D366;
+  color: #FFF;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  animation: pulse 1.5s infinite;
+}
+
+.whatsapp-float i {
+  margin-top: 16px;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+}
+
+/* ===== Appointment Form ===== */
+.appointment-form {
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  margin-top: 40px;
+}
+
+.appointment-form input,
+.appointment-form textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.appointment-form button {
+  background: #0a7ea4;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.appointment-form button:hover {
+  background: #065a75;
+}
+
+/* ===== Image Gallery ===== */
+.gallery img {
+  width: 100%;
+  border-radius: 10px;
+  margin: 15px 0;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
