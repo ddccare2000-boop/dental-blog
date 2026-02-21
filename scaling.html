@@ -127,6 +127,101 @@
       color: white;
       font-weight: bold;
     }
+
+    /* ===== FLOATING VIDEO PLAYER STYLES ===== */
+    .floating-video-container {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      width: 280px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
+      z-index: 999;
+      overflow: hidden;
+      border: 2px solid #0a7ea4;
+      transition: all 0.3s ease;
+    }
+
+    .floating-video-container.minimized {
+      width: 180px;
+      opacity: 0.9;
+    }
+
+    .floating-video-container:hover {
+      transform: scale(1.05);
+      box-shadow: 0 15px 40px rgba(10,126,164,0.3);
+    }
+
+    .floating-video-header {
+      background: #0a7ea4;
+      color: white;
+      padding: 8px 12px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: move;
+    }
+
+    .floating-video-header i {
+      cursor: pointer;
+      margin-left: 10px;
+      opacity: 0.8;
+      transition: opacity 0.2s;
+    }
+
+    .floating-video-header i:hover {
+      opacity: 1;
+    }
+
+    .floating-video-content video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .video-controls {
+      display: flex;
+      padding: 5px;
+      background: #f0f0f0;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .video-controls button {
+      background: #0a7ea4;
+      color: white;
+      border: none;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .video-controls button:hover {
+      background: #065a75;
+    }
+
+    /* Mobile ke liye adjustment */
+    @media (max-width: 768px) {
+      .floating-video-container {
+        width: 200px;
+        bottom: 80px;
+        right: 10px;
+      }
+      
+      .floating-video-container.minimized {
+        width: 120px;
+      }
+      
+      .floating-video-header {
+        font-size: 0.7rem;
+        padding: 5px 8px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -135,6 +230,27 @@
 <a href="https://wa.me/919376585486" class="whatsapp-float" target="_blank">
   <i class="fab fa-whatsapp"></i>
 </a>
+
+<!-- ===== FLOATING VIDEO PLAYER ===== -->
+<div class="floating-video-container" id="floatingVideo">
+  <div class="floating-video-header" id="videoHeader">
+    <span><i class="fas fa-play-circle"></i> Scaling Procedure</span>
+    <span>
+      <i class="fas fa-minus" onclick="minimizeVideo()" title="Minimize"></i>
+      <i class="fas fa-times" onclick="closeVideo()" title="Close"></i>
+    </span>
+  </div>
+  <div class="floating-video-content" id="videoContent">
+    <video id="scalingVideo" controls preload="metadata">
+      <source src="scaling.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+    <div class="video-controls">
+      <button onclick="document.getElementById('scalingVideo').play()"><i class="fas fa-play"></i> Play</button>
+      <button onclick="document.getElementById('scalingVideo').pause()"><i class="fas fa-pause"></i> Pause</button>
+    </div>
+  </div>
+</div>
 
 <header>
   <h1>Deeksha Dental Care</h1>
@@ -446,6 +562,63 @@
 <footer>
   © 2026 Deeksha Dental Care — Professional teeth cleaning for healthy smile
 </footer>
+
+<script>
+// ===== FLOATING VIDEO FUNCTIONS =====
+function minimizeVideo() {
+  const container = document.getElementById('floatingVideo');
+  const content = document.getElementById('videoContent');
+  
+  if (container.classList.contains('minimized')) {
+    container.classList.remove('minimized');
+    content.style.display = 'block';
+  } else {
+    container.classList.add('minimized');
+    content.style.display = 'none';
+  }
+}
+
+function closeVideo() {
+  const container = document.getElementById('floatingVideo');
+  container.style.display = 'none';
+}
+
+// Simple drag functionality
+let isDragging = false;
+let offsetX, offsetY;
+
+const header = document.getElementById('videoHeader');
+const container = document.getElementById('floatingVideo');
+
+if (header && container) {
+  header.addEventListener('mousedown', (e) => {
+    isDragging = true;
+    offsetX = e.clientX - container.offsetLeft;
+    offsetY = e.clientY - container.offsetTop;
+    container.style.cursor = 'grabbing';
+  });
+
+  document.addEventListener('mousemove', (e) => {
+    if (isDragging) {
+      container.style.left = (e.clientX - offsetX) + 'px';
+      container.style.top = (e.clientY - offsetY) + 'px';
+      container.style.right = 'auto';
+      container.style.bottom = 'auto';
+    }
+  });
+
+  document.addEventListener('mouseup', () => {
+    isDragging = false;
+    container.style.cursor = 'default';
+  });
+}
+
+// Ensure video stays on top
+window.addEventListener('scroll', () => {
+  const container = document.getElementById('floatingVideo');
+  if (container) container.style.zIndex = 999;
+});
+</script>
 
 </body>
 </html>
